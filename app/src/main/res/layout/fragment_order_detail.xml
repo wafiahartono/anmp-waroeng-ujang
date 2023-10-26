@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/layout_table_number"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/table"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.LabelSmall" />
+
+        <TextView
+            android:id="@+id/text_table_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            tools:text="10" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_order_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+        app:layout_constraintBottom_toTopOf="@id/text_order_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/layout_table_number"
+        app:layout_constraintTop_toTopOf="@id/layout_table_number"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Rp110.000" />
+
+    <Chronometer
+        android:id="@+id/text_order_duration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:format="@string/template_duration"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        app:layout_constraintBottom_toBottomOf="@id/layout_table_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/layout_table_number"
+        app:layout_constraintTop_toBottomOf="@id/text_order_total"
+        tools:text="@string/template_duration" />
+
+    <TextView
+        android:id="@+id/text_order_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_table_number"
+        tools:text="@tools:sample/lorem[20]" />
+
+    <Button
+        android:id="@+id/button_close_bill"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/close_bill"
+        app:layout_constraintBottom_toBottomOf="@id/button_order_more"
+        app:layout_constraintEnd_toStartOf="@id/button_order_more"
+        app:layout_constraintTop_toTopOf="@id/button_order_more" />
+
+    <Button
+        android:id="@+id/button_order_more"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/order_more"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_order_detail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

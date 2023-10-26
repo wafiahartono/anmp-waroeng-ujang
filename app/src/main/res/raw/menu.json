@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "name": "Spring Rolls",
+    "description": "Crispy spring rolls filled with vegetables and served with sweet chili sauce.",
+    "price": 10000
+  },
+  {
+    "id": 2,
+    "name": "Chicken Wings",
+    "description": "Spicy and crispy chicken wings with your choice of sauce.",
+    "price": 12000
+  },
+  {
+    "id": 3,
+    "name": "Mozzarella Sticks",
+    "description": "Mozzarella sticks breaded and fried to perfection, served with marinara sauce.",
+    "price": 9000
+  },
+  {
+    "id": 4,
+    "name": "Nachos",
+    "description": "Loaded nachos with cheese, jalapeños, and your choice of toppings.",
+    "price": 11000
+  },
+  {
+    "id": 5,
+    "name": "Spinach Dip",
+    "description": "Creamy spinach and artichoke dip served with tortilla chips.",
+    "price": 9500
+  },
+  {
+    "id": 6,
+    "name": "Spaghetti Bolognese",
+    "description": "Classic spaghetti with savory meat sauce and Parmesan cheese.",
+    "price": 15000
+  },
+  {
+    "id": 7,
+    "name": "Grilled Salmon",
+    "description": "Grilled salmon fillet with lemon butter sauce and vegetables.",
+    "price": 18000
+  },
+  {
+    "id": 8,
+    "name": "Chicken Alfredo",
+    "description": "Creamy fettuccine Alfredo with grilled chicken and garlic bread.",
+    "price": 16000
+  },
+  {
+    "id": 9,
+    "name": "Beef Steak",
+    "description": "Tender beef steak with mushrooms and mashed potatoes.",
+    "price": 17000
+  },
+  {
+    "id": 10,
+    "name": "Vegetable Curry",
+    "description": "Vegetable curry with rice and naan bread.",
+    "price": 14000
+  },
+  {
+    "id": 11,
+    "name": "Chocolate Cake",
+    "description": "Decadent chocolate cake with a rich chocolate ganache.",
+    "price": 8000
+  },
+  {
+    "id": 12,
+    "name": "Cheesecake",
+    "description": "Creamy cheesecake with your choice of fruit topping.",
+    "price": 7500
+  },
+  {
+    "id": 13,
+    "name": "Tiramisu",
+    "description": "Traditional Italian tiramisu dessert with coffee flavor.",
+    "price": 8500
+  },
+  {
+    "id": 14,
+    "name": "Fruit Salad",
+    "description": "Fresh fruit salad with a drizzle of honey and yogurt.",
+    "price": 7000
+  },
+  {
+    "id": 15,
+    "name": "Ice Cream Sundae",
+    "description": "Ice cream sundae with whipped cream, nuts, and a cherry on top.",
+    "price": 6500
+  },
+  {
+    "id": 16,
+    "name": "Cola",
+    "description": "Classic cola soft drink served in a chilled glass.",
+    "price": 3000
+  },
+  {
+    "id": 17,
+    "name": "Orange Juice",
+    "description": "Freshly squeezed orange juice served with ice.",
+    "price": 4000
+  },
+  {
+    "id": 18,
+    "name": "Coffee",
+    "description": "Hot brewed coffee with your choice of cream and sugar.",
+    "price": 3500
+  },
+  {
+    "id": 19,
+    "name": "Iced Tea",
+    "description": "Refreshing iced tea with a slice of lemon and ice cubes.",
+    "price": 3500
+  },
+  {
+    "id": 20,
+    "name": "Milkshake",
+    "description": "Thick and creamy milkshake with your favorite flavor.",
+    "price": 4500
+  },
+  {
+    "id": 21,
+    "name": "Seafood Platter",
+    "description": "Deluxe seafood platter with a variety of seafood delights.",
+    "price": 22000
+  },
+  {
+    "id": 22,
+    "name": "Vegetarian Delight",
+    "description": "Vegetarian delight with a variety of fresh and flavorful dishes.",
+    "price": 16000
+  },
+  {
+    "id": 23,
+    "name": "BBQ Ribs",
+    "description": "Tender BBQ ribs with barbecue sauce and coleslaw.",
+    "price": 19000
+  },
+  {
+    "id": 24,
+    "name": "Sushi Combo",
+    "description": "Sushi combo with a variety of sushi rolls and sashimi.",
+    "price": 21000
+  },
+  {
+    "id": 25,
+    "name": "Chef's Special Pasta",
+    "description": "Chef's special pasta with a unique and flavorful sauce.",
+    "price": 17500
+  }
+]
