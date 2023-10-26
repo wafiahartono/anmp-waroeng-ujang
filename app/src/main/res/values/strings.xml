@@ -44,4 +44,6 @@
     <string name="table">Table</string>
     <string name="close_bill">Close bill</string>
     <string name="order_more">Order more</string>
+    <string name="menu_detail">Menu detail</string>
+    <string name="order_detail">Order Detail</string>
 </resources>
