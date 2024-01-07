@@ -1,116 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image_menu"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
-        tools:src="@tools:sample/backgrounds/scenic" />
+    <data>
 
-    <TextView
-        android:id="@+id/text_menu_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_menu"
-        tools:text="@tools:sample/lorem[4]" />
+        <import type="test.s160419098.anmp.wu.UtilsKt" />
 
-    <TextView
-        android:id="@+id/text_menu_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_menu_name"
-        tools:text="@tools:sample/lorem[20]" />
+        <variable
+            name="cart"
+            type="test.s160419098.anmp.wu.cart.CartViewModel" />
 
-    <TextView
-        android:id="@+id/text_menu_price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_menu_description"
-        tools:text="Rp 40.000" />
+        <variable
+            name="viewModel"
+            type="test.s160419098.anmp.wu.menu.detail.MenuDetailViewModel" />
 
-    <TextView
-        android:id="@+id/text_menu_price_caption"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/price_before_tax"
-        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_menu_price" />
+        <variable
+            name="addMenuHandler"
+            type="android.view.View.OnClickListener" />
+    </data>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_decrement_menu_quantity"
-        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/round_remove_circle_24"
-        app:layout_constraintBottom_toBottomOf="@id/button_increment_menu_quantity"
-        app:layout_constraintEnd_toStartOf="@id/text_menu_quantity"
-        app:layout_constraintTop_toTopOf="@id/button_increment_menu_quantity" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_menu_quantity"
-        android:layout_width="32dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:layout_constraintBottom_toBottomOf="@id/button_increment_menu_quantity"
-        app:layout_constraintEnd_toStartOf="@id/button_increment_menu_quantity"
-        app:layout_constraintTop_toTopOf="@id/button_increment_menu_quantity"
-        tools:text="10" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_menu"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:loremFlickr="@{viewModel.menu.name}"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+            tools:src="@tools:sample/backgrounds/scenic" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_increment_menu_quantity"
-        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        app:icon="@drawable/round_add_circle_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_menu_price_caption" />
+        <TextView
+            android:id="@+id/text_menu_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="@{viewModel.menu.name}"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_menu"
+            tools:text="@tools:sample/lorem[4]" />
 
-    <Button
-        android:id="@+id/button_add"
-        style="@style/Widget.Material3.Button.ElevatedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add"
-        app:layout_constraintEnd_toEndOf="@id/button_increment_menu_quantity"
-        app:layout_constraintStart_toStartOf="@id/button_decrement_menu_quantity"
-        app:layout_constraintTop_toBottomOf="@id/button_increment_menu_quantity" />
+        <TextView
+            android:id="@+id/text_menu_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:text="@{viewModel.menu.description}"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_menu_name"
+            tools:text="@tools:sample/lorem[20]" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_menu_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="@{UtilsKt.toCurrency(viewModel.menu.price)}"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_menu_description"
+            tools:text="Rp 40.000" />
+
+        <TextView
+            android:id="@+id/text_menu_price_caption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/price_before_tax"
+            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_menu_price" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_decrement_menu_quantity"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.quantity > 1}"
+            android:onClick="@{() -> viewModel.decrementQuantity()}"
+            app:icon="@drawable/round_remove_circle_24"
+            app:layout_constraintBottom_toBottomOf="@id/button_increment_menu_quantity"
+            app:layout_constraintEnd_toStartOf="@id/text_menu_quantity"
+            app:layout_constraintTop_toTopOf="@id/button_increment_menu_quantity" />
+
+        <TextView
+            android:id="@+id/text_menu_quantity"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.quantity.toString()}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintBottom_toBottomOf="@id/button_increment_menu_quantity"
+            app:layout_constraintEnd_toStartOf="@id/button_increment_menu_quantity"
+            app:layout_constraintTop_toTopOf="@id/button_increment_menu_quantity"
+            tools:text="10" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_increment_menu_quantity"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="@{viewModel.quantity &lt; 100}"
+            android:onClick="@{() -> viewModel.incrementQuantity()}"
+            app:icon="@drawable/round_add_circle_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_menu_price_caption" />
+
+        <Button
+            android:id="@+id/button_add"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:enabled="@{cart.table != null}"
+            android:onClickListener="@{addMenuHandler}"
+            android:text="@string/add"
+            app:layout_constraintEnd_toEndOf="@id/button_increment_menu_quantity"
+            app:layout_constraintStart_toStartOf="@id/button_decrement_menu_quantity"
+            app:layout_constraintTop_toBottomOf="@id/button_increment_menu_quantity" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

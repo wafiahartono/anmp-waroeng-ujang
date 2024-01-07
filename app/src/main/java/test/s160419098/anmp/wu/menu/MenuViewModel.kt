@@ -6,31 +6,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import kotlinx.coroutines.Dispatchers
+import test.s160419098.anmp.wu.data.Category
 import test.s160419098.anmp.wu.main.Application
 
 class MenuViewModel(
     private val app: android.app.Application,
 ) : AndroidViewModel(app) {
-    private val service get() = (app as Application).service
+    private val db
+        get() = (app as Application).database
 
-    val menuCategoriesQuery = MutableLiveData("")
+    val query = MutableLiveData("")
 
-    val menuCategories: LiveData<List<MenuCategory>> = menuCategoriesQuery.switchMap { query ->
+    val categories: LiveData<List<Category>> = query.switchMap { query ->
         liveData(Dispatchers.IO) {
-            val menuCategories =
-                if (query.isEmpty())
-                    service.getMenuCategories()
-                else
-                    service.getMenuCategories()
-                        .map { category ->
-                            category.copy(
-                                items = category.items.filter { item ->
-                                    item.name.contains(query, true)
-                                }
-                            )
-                        }
-                        .filter { category -> category.items.isNotEmpty() }
-            emit(menuCategories)
+            emit(
+                db.categoryDao().query(query).toList().map {
+                    it.first.apply { items = it.second }
+                }
+            )
         }
     }
 }

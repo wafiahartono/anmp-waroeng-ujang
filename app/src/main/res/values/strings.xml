@@ -1,4 +1,4 @@
-<resources>
+    <resources>
     <string name="app_name">Waroeng Ujang</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -9,6 +9,7 @@
     <string name="cart">Cart</string>
     <string name="home">Home</string>
     <string name="waiter">Waiter</string>
+    <string name="waitress">Waitress</string>
     <string name="table_number">Table number</string>
     <string name="serve">Serve</string>
     <string name="change">Change</string>
@@ -36,7 +37,7 @@
     <string name="template_duration">Duration: %1$s</string>
     <string name="bill_closed">Bill closed</string>
     <string name="template_table_set">Table set to %1$d</string>
-    <string name="template_menu_added">%1$d %2$s added to cart</string>
+    <string name="menu_added">Menu added to cart</string>
     <string name="order_set">Order forwarded to kitchen</string>
     <string name="sign_out">Sign out</string>
     <string name="headline_not_serving">Serve new customer</string>

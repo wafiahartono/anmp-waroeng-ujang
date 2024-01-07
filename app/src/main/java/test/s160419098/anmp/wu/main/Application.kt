@@ -2,16 +2,16 @@ package test.s160419098.anmp.wu.main
 
 import android.app.Application
 import com.google.android.material.color.DynamicColors
-import test.s160419098.anmp.wu.api.Service
+import test.s160419098.anmp.wu.data.Database
 
 class Application : Application() {
-    private var _service: Service? = null
-    val service get() = _service!!
+    private var _database: Database? = null
+    val database get() = _database!!
 
     override fun onCreate() {
         super.onCreate()
 
-        _service = Service(this)
+        _database = Database.build(this)
 
         DynamicColors.applyToActivitiesIfAvailable(this)
     }

@@ -1,49 +1,35 @@
 package test.s160419098.anmp.wu.order
 
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.Chronometer
-import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import test.s160419098.anmp.wu.R
-import test.s160419098.anmp.wu.get
-import test.s160419098.anmp.wu.toCurrency
+import test.s160419098.anmp.wu.data.Order
+import test.s160419098.anmp.wu.databinding.ItemOrderBinding
 
 class OrderAdapter : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
     private var list: List<Order> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_order, parent, false),
-            onClickListener = { position ->
-                parent.findNavController().navigate(
-                    OrderFragmentDirections.openOrderDetail(list[position].table)
-                )
-            },
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        binding = ItemOrderBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        ),
+        onClickListener = { position ->
+            parent.findNavController().navigate(
+                OrderFragmentDirections.openOrderDetail(list[position].table)
+            )
+        },
+    )
 
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        with(holder) {
-            tableNumberText.text = list[position].table.toString()
-            orderTotalText.text =
-                (list[position].items.fold(0) { acc, item -> acc + item.menu.price * item.quantity } * 1.1F).toCurrency()
-            orderDurationChrono.base = list[position].processedAt
-        }
-    }
+        holder.binding.order = list[position]
 
-    override fun onViewAttachedToWindow(holder: ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        holder.orderDurationChrono.start()
-    }
-
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        holder.orderDurationChrono.stop()
+        holder.binding.textOrderDuration.base = list[position].datetime
+        holder.binding.textOrderDuration.start()
     }
 
     fun updateList(list: List<Order>) {
@@ -53,15 +39,11 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
     }
 
     class ViewHolder(
-        view: View,
+        val binding: ItemOrderBinding,
         onClickListener: (position: Int) -> Unit,
-    ) : RecyclerView.ViewHolder(view) {
-        val tableNumberText: TextView = view[R.id.text_table_number]
-        val orderTotalText: TextView = view[R.id.text_order_total]
-        val orderDurationChrono: Chronometer = view[R.id.text_order_duration]
-
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            view.setOnClickListener { onClickListener(adapterPosition) }
+            binding.clickHandler = OnClickListener { onClickListener(adapterPosition) }
         }
     }
 

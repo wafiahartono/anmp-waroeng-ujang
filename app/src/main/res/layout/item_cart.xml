@@ -1,90 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginBottom="8dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <import type="test.s160419098.anmp.wu.UtilsKt" />
+
+        <variable
+            name="item"
+            type="test.s160419098.anmp.wu.data.OrderItem" />
+
+        <variable
+            name="decrementHandler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="incrementHandler"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp">
 
-        <ImageView
-            android:id="@+id/image_item"
-            android:layout_width="80dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/backgrounds/scenic" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_item_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-            app:layout_constraintBottom_toTopOf="@id/text_item_price"
-            app:layout_constraintEnd_toStartOf="@id/button_decrement_item_quantity"
-            app:layout_constraintStart_toEndOf="@id/image_item"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Martabak Daging Sapi" />
+            <ImageView
+                android:id="@+id/image_item"
+                android:layout_width="80dp"
+                android:layout_height="0dp"
+                android:loremFlickr="@{item.menu.name}"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/text_item_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button_decrement_item_quantity"
-            app:layout_constraintStart_toEndOf="@id/image_item"
-            app:layout_constraintTop_toBottomOf="@id/text_item_name"
-            tools:text="Rp40.000" />
+            <TextView
+                android:id="@+id/text_item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{item.menu.name}"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                app:layout_constraintBottom_toTopOf="@id/text_item_price"
+                app:layout_constraintEnd_toStartOf="@id/button_decrement_item_quantity"
+                app:layout_constraintStart_toEndOf="@id/image_item"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Martabak Daging Sapi" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_decrement_item_quantity"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            app:icon="@drawable/round_remove_circle_24"
-            app:layout_constraintBottom_toBottomOf="@id/button_increment_item_quantity"
-            app:layout_constraintEnd_toStartOf="@id/text_item_quantity"
-            app:layout_constraintTop_toTopOf="@id/button_increment_item_quantity" />
+            <TextView
+                android:id="@+id/text_item_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{UtilsKt.toCurrency(item.menu.price)}"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_decrement_item_quantity"
+                app:layout_constraintStart_toEndOf="@id/image_item"
+                app:layout_constraintTop_toBottomOf="@id/text_item_name"
+                tools:text="Rp40.000" />
 
-        <TextView
-            android:id="@+id/text_item_quantity"
-            android:layout_width="32dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            app:layout_constraintBottom_toBottomOf="@id/button_increment_item_quantity"
-            app:layout_constraintEnd_toStartOf="@id/button_increment_item_quantity"
-            app:layout_constraintTop_toTopOf="@id/button_increment_item_quantity"
-            tools:text="10" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_decrement_item_quantity"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:onClickListener="@{decrementHandler}"
+                app:icon="@drawable/round_remove_circle_24"
+                app:layout_constraintBottom_toBottomOf="@id/button_increment_item_quantity"
+                app:layout_constraintEnd_toStartOf="@id/text_item_quantity"
+                app:layout_constraintTop_toTopOf="@id/button_increment_item_quantity" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_increment_item_quantity"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:icon="@drawable/round_add_circle_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/text_item_quantity"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:text="@{item.quantity + ``}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                app:layout_constraintBottom_toBottomOf="@id/button_increment_item_quantity"
+                app:layout_constraintEnd_toStartOf="@id/button_increment_item_quantity"
+                app:layout_constraintTop_toTopOf="@id/button_increment_item_quantity"
+                tools:text="10" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_increment_item_quantity"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:onClickListener="@{incrementHandler}"
+                app:icon="@drawable/round_add_circle_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

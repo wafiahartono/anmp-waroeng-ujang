@@ -1,4 +1,4 @@
-package test.s160419098.anmp.wu.auth
+package test.s160419098.anmp.wu.session
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

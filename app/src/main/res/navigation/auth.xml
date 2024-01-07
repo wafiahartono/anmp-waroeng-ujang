@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="test.s160419098.anmp.wu.auth.SignInFragment"
+        android:name="test.s160419098.anmp.wu.session.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
 </navigation>

@@ -3,13 +3,17 @@ package test.s160419098.anmp.wu.order.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-import test.s160419098.anmp.wu.order.Order
+import test.s160419098.anmp.wu.data.Order
 
 class OrderDetailViewModel : ViewModel() {
-    lateinit var getOrderFn: (table: Int) -> Order
+    private val _order = MutableLiveData<Order>()
+    val order: LiveData<Order> = _order
 
-    val table = MutableLiveData<Int>()
+    fun getOrderSkipValueAccessor() = _order.value!!
 
-    val order: LiveData<Order> = table.map { getOrderFn(it) }
+    fun setOrder(order: Order) {
+        _order.value = order
+    }
+
+    fun getTable() = _order.value!!.table
 }

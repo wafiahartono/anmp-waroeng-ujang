@@ -1,69 +1,52 @@
 package test.s160419098.anmp.wu.cart
 
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import test.s160419098.anmp.wu.R
-import test.s160419098.anmp.wu.get
-import test.s160419098.anmp.wu.loremFlickr
-import test.s160419098.anmp.wu.toCurrency
+import test.s160419098.anmp.wu.data.OrderItem
+import test.s160419098.anmp.wu.databinding.ItemCartBinding
 
 class CartItemAdapter(
-    private val onItemChange: (item: CartItem) -> Unit,
+    private val onItemChange: (item: OrderItem) -> Unit,
 ) : RecyclerView.Adapter<CartItemAdapter.ViewHolder>() {
-    private var list: List<CartItem> = emptyList()
+    private var list: List<OrderItem> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false),
-            onQuantityChange = { position, direction ->
-                onItemChange(list[position].copy(quantity = list[position].quantity + direction))
-            },
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        binding = ItemCartBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        ),
+        onQuantityChange = { position, direction ->
+            onItemChange(list[position].copy(quantity = list[position].quantity + direction))
+        },
+    )
 
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        with(holder) {
-            itemImage.load(list[position].menu.name.loremFlickr(400))
-            itemNameText.text = list[position].menu.name
-            itemPriceText.text = list[position].menu.price.toCurrency()
-            itemQuantityText.text = list[position].quantity.toString()
-        }
+        holder.binding.item = list[position]
     }
 
-    fun updateList(list: List<CartItem>) {
+    fun updateList(list: List<OrderItem>) {
         val diffResult = DiffUtil.calculateDiff(DiffUtilCallback(this.list, list))
         this.list = list
         diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(
-        view: View,
+        val binding: ItemCartBinding,
         onQuantityChange: (position: Int, direction: Int) -> Unit,
-    ) : RecyclerView.ViewHolder(view) {
-        val itemImage: ImageView = view[R.id.image_item]
-        val itemNameText: TextView = view[R.id.text_item_name]
-        val itemPriceText: TextView = view[R.id.text_item_price]
-        private val decrementItemQuantityButton: Button = view[R.id.button_decrement_item_quantity]
-        val itemQuantityText: TextView = view[R.id.text_item_quantity]
-        private val incrementItemQuantityButton: Button = view[R.id.button_increment_item_quantity]
-
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            decrementItemQuantityButton.setOnClickListener { onQuantityChange(adapterPosition, -1) }
-            incrementItemQuantityButton.setOnClickListener { onQuantityChange(adapterPosition, +1) }
+            binding.decrementHandler = OnClickListener { onQuantityChange(adapterPosition, -1) }
+            binding.incrementHandler = OnClickListener { onQuantityChange(adapterPosition, +1) }
         }
     }
 
     class DiffUtilCallback(
-        private val oldList: List<CartItem>,
-        private val newList: List<CartItem>,
+        private val oldList: List<OrderItem>,
+        private val newList: List<OrderItem>,
     ) : DiffUtil.Callback() {
         override fun getOldListSize() = oldList.size
 

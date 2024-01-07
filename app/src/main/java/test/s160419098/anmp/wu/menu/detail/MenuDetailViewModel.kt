@@ -3,31 +3,39 @@ package test.s160419098.anmp.wu.menu.detail
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import test.s160419098.anmp.wu.data.Menu
+import test.s160419098.anmp.wu.data.OrderItem
 import test.s160419098.anmp.wu.main.Application
-import test.s160419098.anmp.wu.menu.Menu
 
 class MenuDetailViewModel(
     private val app: android.app.Application,
 ) : AndroidViewModel(app) {
-    private val service get() = (app as Application).service
+    private val db
+        get() = (app as Application).database
 
-    val menuId = MutableLiveData<Int>()
+    private val _menu = MutableLiveData<Menu>()
+    val menu: LiveData<Menu> = _menu
 
-    val menu: LiveData<Menu> = menuId.switchMap { id ->
-        liveData(Dispatchers.IO) { emit(service.getMenu(id)) }
+    private val _quantity = MutableLiveData(1)
+    val quantity: LiveData<Int> = _quantity
+
+    fun getOrderItem() = OrderItem(
+        menu = menu.value!!,
+        quantity = _quantity.value!!,
+    )
+
+    fun fetchMenu(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        _menu.postValue(db.menuDao().find(id)!!)
     }
 
-    private val _menuQuantity = MutableLiveData(1)
-    val menuQuantity: LiveData<Int> = _menuQuantity
-
     fun incrementQuantity() {
-        _menuQuantity.value = _menuQuantity.value!!.inc()
+        _quantity.value = _quantity.value!!.inc()
     }
 
     fun decrementQuantity() {
-        _menuQuantity.value = _menuQuantity.value!!.dec()
+        _quantity.value = _quantity.value!!.dec()
     }
 }

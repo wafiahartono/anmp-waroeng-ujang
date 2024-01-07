@@ -7,14 +7,20 @@
 
     <fragment
         android:id="@+id/accountFragment"
-        android:name="test.s160419098.anmp.wu.auth.AccountFragment"
+        android:name="test.s160419098.anmp.wu.session.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/cartFragment"
         android:name="test.s160419098.anmp.wu.cart.CartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/changeTable"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="test.s160419098.anmp.wu.main.HomeFragment"
@@ -61,5 +67,10 @@
         <argument
             android:name="table"
             app:argType="integer" />
+        <action
+            android:id="@+id/openMenu"
+            app:destination="@id/menuFragment"
+            app:popUpTo="@id/orderDetailFragment"
+            app:popUpToInclusive="true" />
     </dialog>
 </navigation>

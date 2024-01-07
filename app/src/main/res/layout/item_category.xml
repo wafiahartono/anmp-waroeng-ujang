@@ -3,35 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="category"
+            type="test.s160419098.anmp.wu.data.Category" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
         <TextView
-            android:id="@+id/text_headline_customers"
+            android:id="@+id/text_category_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:text="@string/customers"
+            android:text="@{category.name}"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Appetizers" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_order"
+            android:id="@+id/recycler_view_menu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="32dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="32dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_headline_customers"
-            tools:listitem="@layout/item_order" />
+            app:layout_constraintTop_toBottomOf="@id/text_category_name"
+            tools:listitem="@layout/item_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
