@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import test.s160419098.anmp.wu.data.Menu
-import test.s160419098.anmp.wu.data.OrderItem
 import test.s160419098.anmp.wu.main.Application
 
 class MenuDetailViewModel(
-    private val app: android.app.Application,
+    private val app: android.app.Application
 ) : AndroidViewModel(app) {
-    private val db
+
+    private val database
         get() = (app as Application).database
 
     private val _menu = MutableLiveData<Menu>()
@@ -22,13 +22,12 @@ class MenuDetailViewModel(
     private val _quantity = MutableLiveData(1)
     val quantity: LiveData<Int> = _quantity
 
-    fun getOrderItem() = OrderItem(
-        menu = menu.value!!,
-        quantity = _quantity.value!!,
-    )
-
-    fun fetchMenu(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        _menu.postValue(db.menuDao().find(id)!!)
+    fun fetch(menuId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _menu.postValue(
+                database.menuDao().find(menuId)!!
+            )
+        }
     }
 
     fun incrementQuantity() {
@@ -38,4 +37,5 @@ class MenuDetailViewModel(
     fun decrementQuantity() {
         _quantity.value = _quantity.value!!.dec()
     }
+
 }

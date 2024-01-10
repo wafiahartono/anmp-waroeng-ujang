@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import test.s160419098.anmp.wu.R
 import test.s160419098.anmp.wu.databinding.FragmentCartBinding
-import test.s160419098.anmp.wu.order.OrderViewModel
 
 class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
 
     private val cart: CartViewModel by activityViewModels()
-    private val orders: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,13 +29,16 @@ class CartFragment : Fragment() {
         binding.viewModel = cart
 
         binding.processHandler = View.OnClickListener {
-            orders.setOrder(cart.getOrder())
-            cart.empty()
+            cart.processToOrder()
 
             Toast.makeText(requireContext(), getString(R.string.order_set), Toast.LENGTH_SHORT)
                 .show()
+        }
 
-            findNavController().navigate(CartFragmentDirections.changeTable())
+        binding.buttonProcessToKitchen.setOnLongClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+            }
+            return@setOnLongClickListener true
         }
 
         return binding.root
@@ -46,14 +49,14 @@ class CartFragment : Fragment() {
 
         binding.recyclerViewCart.apply {
             adapter = CartItemAdapter(
-                onItemChange = { item -> cart.setItem(item) }
+                onQuantityChange = { menu, quantity -> cart.setItemQuantity(menu, quantity) }
             )
 
             setHasFixedSize(true)
         }
 
         cart.items.observe(viewLifecycleOwner) { items ->
-            (binding.recyclerViewCart.adapter as CartItemAdapter).updateList(items)
+            (binding.recyclerViewCart.adapter as CartItemAdapter).updateItems(items)
         }
     }
 

@@ -7,10 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "menus")
 data class Menu(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
+
     @ColumnInfo(name = "category_id")
-    val categoryId: Int,
+    val categoryId: Long,
+
     val name: String,
+
     val price: Float,
+
     val description: String,
 )

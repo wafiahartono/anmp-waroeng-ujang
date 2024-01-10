@@ -6,5 +6,5 @@ import androidx.room.Query
 @Dao
 interface MenuDao {
     @Query("SELECT * FROM menus WHERE id = :id")
-    fun find(id: Int): Menu?
+    fun find(id: Long): Menu?
 }

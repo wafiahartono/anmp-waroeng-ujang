@@ -8,17 +8,21 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(
     tableName = "waiters",
-    indices = [Index(value = ["username"], unique = true)]
+    indices = [
+        Index(value = ["username"], unique = true)
+    ],
 )
 data class Waiter(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val name: String,
-    val username: String,
-    val password: String,
-    val sex: Sex,
-)
+    val id: Long,
 
-enum class Sex {
-    MALE, FEMALE
+    val name: String,
+
+    val username: String,
+
+    val password: String,
+
+    val sex: Sex,
+) {
+    enum class Sex { MALE, FEMALE }
 }

@@ -8,45 +8,57 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import test.s160419098.anmp.wu.R
 import test.s160419098.anmp.wu.Result
 import test.s160419098.anmp.wu.data.Waiter
 import test.s160419098.anmp.wu.main.Application
 
 class SessionViewModel(
-    private val app: android.app.Application,
+    private val app: android.app.Application
 ) : AndroidViewModel(app) {
-    private val db
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            _user.postValue(
+                prefs.getLong("user", 0).let {
+                    if (it == 0L) null
+                    else database.waiterDao().find(it)?.copy(password = "")
+                }
+            )
+        }
+    }
+
+    private val database
         get() = (app as Application).database
 
     private val prefs
         get() = app.getSharedPreferences("session", Context.MODE_PRIVATE)
 
-    private val _user: MutableLiveData<Waiter?> = MutableLiveData(
-        prefs.getString("user", null)?.let {
-            return@let Json.decodeFromString<Waiter>(it)
-        }
-    )
+    private val _user = MutableLiveData<Waiter?>()
     val user: LiveData<Waiter?> = _user
 
-    val isAuthenticated get() = _user.value != null
+    private val _signInResult = MutableLiveData<Result<Unit>>()
+    val signInResult: LiveData<Result<Unit>> = _signInResult
 
-    private val _signInResult = MutableLiveData<Result<Boolean>>()
-    val signInResult: LiveData<Result<Boolean>> = _signInResult
+    fun signIn(username: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _signInResult.postValue(Result.Loading)
 
-    fun signIn(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
-        _signInResult.postValue(Result.Loading)
+            val user = database.waiterDao().find(username)
 
-        val user = db.waiterDao().find(username)
+            if (user != null && user.password == password) {
+                prefs.edit { putLong("user", user.id) }
 
-        if (user != null && user.password == password) {
-            prefs.edit { putString("user", Json.encodeToString(user)) }
+                _user.postValue(user.copy(password = ""))
 
-            _user.postValue(user)
-            _signInResult.postValue(Result.Success(true))
-        } else {
-            _signInResult.postValue(Result.Success(false))
+                _signInResult.postValue(Result.Success(Unit))
+            } else {
+                _signInResult.postValue(
+                    Result.Error(
+                        Exception(app.getString(R.string.invalid_username_or_password))
+                    )
+                )
+            }
         }
     }
 
@@ -54,4 +66,5 @@ class SessionViewModel(
         prefs.edit { remove("user") }
         _user.value = null
     }
+
 }

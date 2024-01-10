@@ -2,13 +2,13 @@ package test.s160419098.anmp.wu.menu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import test.s160419098.anmp.wu.data.Category
 import test.s160419098.anmp.wu.databinding.ItemCategoryBinding
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
-    private var list: List<Category> = emptyList()
+
+    private var categories: List<Category> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         binding = ItemCategoryBinding.inflate(
@@ -16,18 +16,17 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         )
     )
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = categories.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.category = list[position]
+        holder.binding.category = categories[position]
 
-        (holder.binding.recyclerViewMenu.adapter as MenuAdapter).updateList(list[position].items)
+        (holder.binding.recyclerViewMenu.adapter as MenuAdapter).updateMenus(categories[position].items)
     }
 
-    fun updateList(list: List<Category>) {
-        val diffResult = DiffUtil.calculateDiff(DiffUtilCallback(this.list, list))
-        this.list = list
-        diffResult.dispatchUpdatesTo(this)
+    fun updateCategories(categories: List<Category>) {
+        this.categories = categories
+        notifyDataSetChanged()
     }
 
     class ViewHolder(
@@ -41,20 +40,4 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         }
     }
 
-    class DiffUtilCallback(
-        private val oldList: List<Category>,
-        private val newList: List<Category>,
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize() = oldList.size
-
-        override fun getNewListSize() = newList.size
-
-        override fun areItemsTheSame(pos0: Int, pos1: Int): Boolean {
-            return oldList[pos0].id == newList[pos1].id
-        }
-
-        override fun areContentsTheSame(pos0: Int, pos1: Int): Boolean {
-            return oldList[pos0].items.size == newList[pos1].items.size
-        }
-    }
 }

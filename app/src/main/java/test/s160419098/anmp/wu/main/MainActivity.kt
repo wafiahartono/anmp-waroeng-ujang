@@ -18,26 +18,39 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    private val session: SessionViewModel by viewModels()
+    private val navHostFragment
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
 
-    private lateinit var navController: NavController
+    private val navController: NavController
+        get() = navHostFragment.navController
+
+    private val session: SessionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!session.isAuthenticated) {
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
-            return
-        }
+        var initialized = false
 
+        session.user.observe(this) { user ->
+            if (initialized) return@observe
+
+            if (user == null) {
+                startActivity(Intent(this, AuthActivity::class.java))
+                finish()
+            } else {
+                initializeUI()
+            }
+
+            initialized = true
+        }
+    }
+
+    override fun onSupportNavigateUp() =
+        NavigationUI.navigateUp(navController, binding.drawerLayout) || super.onSupportNavigateUp()
+
+    private fun initializeUI() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
-
-        navController = navHostFragment.navController
 
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
         NavigationUI.setupWithNavController(binding.navigationView, navController)
@@ -58,10 +71,5 @@ class MainActivity : AppCompatActivity() {
 
             return@setNavigationItemSelectedListener true
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, binding.drawerLayout) ||
-                super.onSupportNavigateUp()
     }
 }

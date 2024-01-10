@@ -13,7 +13,6 @@ import test.s160419098.anmp.wu.AfterTextChanged
 import test.s160419098.anmp.wu.R
 import test.s160419098.anmp.wu.cart.CartViewModel
 import test.s160419098.anmp.wu.databinding.FragmentHomeBinding
-import test.s160419098.anmp.wu.order.OrderViewModel
 import test.s160419098.anmp.wu.requireInput
 import test.s160419098.anmp.wu.session.SessionViewModel
 import test.s160419098.anmp.wu.setError
@@ -24,44 +23,36 @@ class HomeFragment : Fragment() {
 
     private val session: SessionViewModel by activityViewModels()
     private val cart: CartViewModel by activityViewModels()
-    private val orders: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = viewLifecycleOwner
+        _binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         binding.session = session
         binding.cart = cart
 
-        binding.queryChangedAction = AfterTextChanged {
-            checkTableNumberInput(it)
-        }
+        binding.queryChangedAction = AfterTextChanged { checkTableNumberInput(it) }
 
         binding.serveTableHandler = OnClickListener {
-            val table = binding.editTextTableNumber.text.toString().toIntOrNull()
+            val table = binding.textInputTableNumber.requireInput()?.toIntOrNull()
                 ?: return@OnClickListener
 
-            cart.set(
-                table = table,
-                items = orders.getTableOrder(table)?.items,
-            )
+            cart.updateTable(table)
 
             findNavController().navigate(HomeFragmentDirections.openMenu())
         }
 
         binding.changeTableHandler = OnClickListener {
-            cart.empty()
+            cart.updateTable(null)
         }
 
         return binding.root
     }
 
     private fun checkTableNumberInput(text: Editable?) {
-        binding.textInputTableNumber.requireInput() ?: return
-
         val table = text.toString().toIntOrNull()
 
         if (table == null || table < 1 || table > 15) {

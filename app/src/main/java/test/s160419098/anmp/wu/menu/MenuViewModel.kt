@@ -10,20 +10,22 @@ import test.s160419098.anmp.wu.data.Category
 import test.s160419098.anmp.wu.main.Application
 
 class MenuViewModel(
-    private val app: android.app.Application,
+    private val app: android.app.Application
 ) : AndroidViewModel(app) {
-    private val db
+
+    private val database
         get() = (app as Application).database
 
     val query = MutableLiveData("")
 
     val categories: LiveData<List<Category>> = query.switchMap { query ->
         liveData(Dispatchers.IO) {
-            emit(
-                db.categoryDao().query(query).toList().map {
-                    it.first.apply { items = it.second }
-                }
-            )
+            val categories = database.categoryDao().all(query).toList().map { pair ->
+                pair.first.apply { items = pair.second }
+            }
+
+            emit(categories)
         }
     }
+
 }

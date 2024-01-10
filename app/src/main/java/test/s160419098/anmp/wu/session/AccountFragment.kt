@@ -24,9 +24,14 @@ class AccountFragment : Fragment() {
         binding.session = session
 
         binding.updatePasswordHandler = OnClickListener {
-            binding.textInputCurrentPassword.requireInput() ?: return@OnClickListener
-            binding.textInputNewPassword.requireInput() ?: return@OnClickListener
-            binding.textInputRepeatPassword.requireInput() ?: return@OnClickListener
+            binding.textInputCurrentPassword.requireInput(trim = false)
+                ?: return@OnClickListener
+
+            binding.textInputNewPassword.requireInput(trim = false)
+                ?: return@OnClickListener
+
+            binding.textInputRepeatPassword.requireInput(trim = false)
+                ?: return@OnClickListener
         }
 
         return binding.root

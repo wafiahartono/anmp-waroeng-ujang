@@ -24,7 +24,7 @@ class MenuDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.fetchMenu(
+        viewModel.fetch(
             MenuDetailFragmentArgs.fromBundle(requireArguments()).menuId
         )
     }
@@ -32,15 +32,18 @@ class MenuDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMenuDetailBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = viewLifecycleOwner
+        _binding = FragmentMenuDetailBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         binding.cart = cart
         binding.viewModel = viewModel
 
         binding.addMenuHandler = OnClickListener {
-            cart.setItem(viewModel.getOrderItem())
+            cart.setItemQuantity(
+                menu = viewModel.menu.value!!,
+                quantity = viewModel.quantity.value!!,
+            )
 
             Toast.makeText(requireContext(), getString(R.string.menu_added), Toast.LENGTH_SHORT)
                 .show()

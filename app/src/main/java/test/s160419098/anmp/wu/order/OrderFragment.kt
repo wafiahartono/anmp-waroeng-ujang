@@ -1,5 +1,6 @@
 package test.s160419098.anmp.wu.order
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +13,12 @@ class OrderFragment : Fragment() {
     private var _binding: FragmentOrderBinding? = null
     private val binding get() = _binding!!
 
-    private val orderViewModel: OrderViewModel by activityViewModels()
+    private val viewModel: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = viewLifecycleOwner
-
         return binding.root
     }
 
@@ -32,9 +30,15 @@ class OrderFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-        orderViewModel.orders.observe(viewLifecycleOwner) { orders ->
-            (binding.recyclerViewOrder.adapter as OrderAdapter).updateList(orders)
+        viewModel.orders.observe(viewLifecycleOwner) { orders ->
+            (binding.recyclerViewOrder.adapter as OrderAdapter).updateOrders(orders)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        viewModel.fetch()
     }
 
     override fun onDestroyView() {

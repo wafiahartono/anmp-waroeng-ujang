@@ -1,16 +1,24 @@
 package test.s160419098.anmp.wu.cart
 
-import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import test.s160419098.anmp.wu.data.Menu
 import test.s160419098.anmp.wu.data.Order
 import test.s160419098.anmp.wu.data.OrderItem
+import test.s160419098.anmp.wu.main.Application
 
 class CartViewModel(
-    app: android.app.Application,
+    private val app: android.app.Application
 ) : AndroidViewModel(app) {
+
+    private val database
+        get() = (app as Application).database
+
     private val _table = MutableLiveData<Int?>(null)
     val table: LiveData<Int?> = _table
 
@@ -18,44 +26,80 @@ class CartViewModel(
     val items: LiveData<List<OrderItem>> = _items
 
     val subtotal: LiveData<Float> = _items.map { items ->
-        items.fold(0F) { acc, item -> acc + item.menu.price * item.quantity }
+        items.fold(0F) { acc, item -> acc + item.subtotal }
     }
 
-    val tax: LiveData<Float> = subtotal.map { subtotal -> subtotal * 0.1F }
+    val tax: LiveData<Float> = subtotal.map { it * 0.1F }
 
-    val total: LiveData<Float> = subtotal.map { subtotal -> subtotal * 1.1F }
+    val total: LiveData<Float> = subtotal.map { it * 1.1F }
 
-    fun getOrder() = Order(
-        table = _table.value!!,
-        datetime = SystemClock.elapsedRealtime(),
-        items = _items.value!!,
-    )
+    fun updateTable(table: Int?) {
+        if (table == null) {
+            _table.postValue(null)
+            _items.postValue(emptyList())
+            return
+        }
 
-    fun set(order: Order) {
-        _table.value = order.table
-        _items.value = order.items
+        viewModelScope.launch(Dispatchers.IO) {
+            val items = database.cartDao().find(table).entries.firstOrNull()?.let { entry ->
+                entry.value.map { it.item.apply { menu = it.menu } }
+            }
+
+            _table.postValue(table)
+            _items.postValue(items ?: emptyList())
+        }
     }
 
-    fun set(table: Int, items: List<OrderItem>?) {
-        _table.value = table
-        _items.value = items.orEmpty()
+    fun setCartFromOrder(orderId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val order = database.orderDao().find(orderId).entries.first().let { entry ->
+                entry.key.apply {
+                    items = entry.value.map { it.item.apply { menu = it.menu } }
+                }
+            }
+
+            _table.postValue(order.table)
+            _items.postValue(order.items)
+        }
     }
 
-    fun setItem(item: OrderItem) {
-        val items = _items.value.orEmpty().toMutableList()
+    fun setItemQuantity(menu: Menu, quantity: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            var orderId = database.cartDao().getOrderId(table.value!!)
 
-        val index = items.indexOfFirst { it.menu.id == item.menu.id }
+            if (orderId == null) {
+                orderId = database.orderDao().insert(Order(id = 0, table = table.value!!))
+            }
 
-        if (index >= 0)
-            items[index] = item
-        else
-            items.add(item)
+            val items = _items.value!!.toMutableList()
+            val index = items.indexOfFirst { it.menu.id == menu.id }
 
-        _items.value = items.filter { it.quantity > 0 }
+            val item = OrderItem(orderId, menu.id, quantity, menu.price * quantity).apply {
+                this.menu = menu
+            }
+
+            if (index < 0) {
+                database.cartDao().insertItem(item)
+                items.add(item)
+            } else if (quantity == 0) {
+                database.cartDao().deleteItem(item)
+                items.removeAt(index)
+            } else {
+                database.cartDao().updateItem(item)
+                items[index] = item
+            }
+
+            _items.postValue(items)
+        }
     }
 
-    fun empty() {
-        _table.value = null
-        _items.value = emptyList()
+    fun processToOrder() {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.cartDao().moveToOrder(table.value!!)
+
+            _table.postValue(null)
+            _items.postValue(emptyList())
+        }
     }
+
 }

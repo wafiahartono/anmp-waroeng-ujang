@@ -9,12 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import test.s160419098.anmp.wu.R
 import test.s160419098.anmp.wu.Result
 import test.s160419098.anmp.wu.databinding.FragmentSignInBinding
 import test.s160419098.anmp.wu.main.MainActivity
 import test.s160419098.anmp.wu.requireInput
-import test.s160419098.anmp.wu.setError
 
 class SignInFragment : Fragment() {
     private var _binding: FragmentSignInBinding? = null
@@ -28,8 +26,11 @@ class SignInFragment : Fragment() {
         _binding = FragmentSignInBinding.inflate(inflater, container, false)
 
         binding.signInHandler = OnClickListener {
-            val username = binding.textInputUsername.requireInput() ?: return@OnClickListener
-            val password = binding.textInputPassword.requireInput() ?: return@OnClickListener
+            val username = binding.textInputUsername.requireInput()
+                ?: return@OnClickListener
+
+            val password = binding.textInputPassword.requireInput(trim = false)
+                ?: return@OnClickListener
 
             session.signIn(username, password)
         }
@@ -43,22 +44,16 @@ class SignInFragment : Fragment() {
         session.signInResult.observe(viewLifecycleOwner, ::observeSignInResult)
     }
 
-    private fun observeSignInResult(result: Result<Boolean>) = when (result) {
-        is Result.Loading -> {
-            Toast.makeText(requireContext(), R.string.signing_in, Toast.LENGTH_SHORT).show()
-        }
+    private fun observeSignInResult(result: Result<Unit>) = when (result) {
+        is Result.Loading -> {}
 
         is Result.Success -> {
-            if (result.data) {
-                startActivity(Intent(requireContext(), MainActivity::class.java))
-                requireActivity().finish()
-            } else {
-                binding.textInputUsername.setError(R.string.invalid_username_or_password)
-            }
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
         }
 
         is Result.Error -> {
-            Toast.makeText(requireContext(), "Unexpected error", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), result.exception.message, Toast.LENGTH_LONG).show()
         }
     }
 

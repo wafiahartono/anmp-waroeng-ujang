@@ -14,13 +14,7 @@
         android:id="@+id/cartFragment"
         android:name="test.s160419098.anmp.wu.cart.CartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_cart" >
-        <action
-            android:id="@+id/changeTable"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/main_navigation"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="test.s160419098.anmp.wu.main.HomeFragment"
@@ -58,19 +52,14 @@
         tools:layout="@layout/fragment_menu_detail">
         <argument
             android:name="menuId"
-            app:argType="integer" />
+            app:argType="long" />
     </fragment>
     <dialog
         android:id="@+id/orderDetailFragment"
         android:name="test.s160419098.anmp.wu.order.detail.OrderDetailFragment"
         android:label="@string/order_detail">
         <argument
-            android:name="table"
-            app:argType="integer" />
-        <action
-            android:id="@+id/openMenu"
-            app:destination="@id/menuFragment"
-            app:popUpTo="@id/orderDetailFragment"
-            app:popUpToInclusive="true" />
+            android:name="orderId"
+            app:argType="long" />
     </dialog>
 </navigation>

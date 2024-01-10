@@ -18,12 +18,11 @@ fun toCurrency(float: Float?): String {
     return Global.numberFormat.format(float)
 }
 
-fun TextInputLayout.requireInput(trim: Boolean = true): String? {
-    return findViewWithTag<TextInputEditText>("edittext").text
+fun TextInputLayout.requireInput(trim: Boolean = true) =
+    findViewWithTag<TextInputEditText>("edittext").text
         .toString().let { if (trim) it.trim() else it }
         .ifEmpty { null }
         .also { setError(if (it == null) R.string.field_required else null) }
-}
 
 fun TextInputLayout.setError(@StringRes resId: Int?) {
     this.error = if (resId == null) null else context.getString(resId)

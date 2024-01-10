@@ -10,11 +10,8 @@ interface CategoryDao {
             SELECT *
             FROM categories
             JOIN menus ON menus.category_id = categories.id
-            WHERE
-                categories.name LIKE '%' || :query || '%'
-                OR
-                menus.name LIKE '%' || :query || '%'
+            WHERE categories.name LIKE '%' || :query || '%' OR menus.name LIKE '%' || :query || '%'
         """
     )
-    fun query(query: String): Map<Category, List<Menu>>
+    fun all(query: String): Map<Category, List<Menu>>
 }

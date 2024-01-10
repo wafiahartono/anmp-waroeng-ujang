@@ -4,38 +4,34 @@ import android.view.LayoutInflater
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import test.s160419098.anmp.wu.data.Order
 import test.s160419098.anmp.wu.databinding.ItemOrderBinding
 
 class OrderAdapter : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
-    private var list: List<Order> = emptyList()
+
+    private var orders: List<Order> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         binding = ItemOrderBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         ),
-        onClickListener = { position ->
+        onClickListener = { pos ->
             parent.findNavController().navigate(
-                OrderFragmentDirections.openOrderDetail(list[position].table)
+                OrderFragmentDirections.openOrderDetail(orders[pos].id)
             )
         },
     )
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = orders.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.order = list[position]
-
-        holder.binding.textOrderDuration.base = list[position].datetime
-        holder.binding.textOrderDuration.start()
+        holder.binding.order = orders[position]
     }
 
-    fun updateList(list: List<Order>) {
-        val diffResult = DiffUtil.calculateDiff(DiffUtilCallback(this.list, list))
-        this.list = list
-        diffResult.dispatchUpdatesTo(this)
+    fun updateOrders(orders: List<Order>) {
+        this.orders = orders
+        notifyDataSetChanged()
     }
 
     class ViewHolder(
@@ -47,20 +43,4 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
         }
     }
 
-    class DiffUtilCallback(
-        private val oldList: List<Order>,
-        private val newList: List<Order>,
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize() = oldList.size
-
-        override fun getNewListSize() = newList.size
-
-        override fun areItemsTheSame(pos0: Int, pos1: Int): Boolean {
-            return oldList[pos0].table == newList[pos1].table
-        }
-
-        override fun areContentsTheSame(pos0: Int, pos1: Int): Boolean {
-            return oldList[pos0].items.size == newList[pos1].items.size
-        }
-    }
 }

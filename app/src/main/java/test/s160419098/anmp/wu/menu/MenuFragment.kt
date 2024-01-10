@@ -21,9 +21,9 @@ class MenuFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMenuBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = viewLifecycleOwner
+        _binding = FragmentMenuBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         binding.cart = cart
         binding.viewModel = viewModel
@@ -44,7 +44,7 @@ class MenuFragment : Fragment() {
         }
 
         viewModel.categories.observe(viewLifecycleOwner) {
-            (binding.recyclerViewCategory.adapter as CategoryAdapter).updateList(it)
+            (binding.recyclerViewCategory.adapter as CategoryAdapter).updateCategories(it)
         }
     }
 
