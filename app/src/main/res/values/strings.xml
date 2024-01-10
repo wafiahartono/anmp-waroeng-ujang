@@ -1,4 +1,4 @@
-    <resources>
+<resources>
     <string name="app_name">Waroeng Ujang</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -26,17 +26,13 @@
     <string name="field_required">Field required</string>
     <string name="template_table_number">Table number %1$d</string>
     <string name="invalid_username_or_password">Invalid username or password</string>
-    <string name="signing_in">Signing in…</string>
     <string name="no_table_selected">No table selected</string>
     <string name="new_password">New password</string>
     <string name="repeat_password">Repeat password</string>
     <string name="update_password">Update password</string>
     <string name="current_password">Current password</string>
-    <string name="template_worked_since">Worked since %1$s</string>
     <string name="valid_table_number_helper">Valid table number is 1–15</string>
     <string name="template_duration">Duration: %1$s</string>
-    <string name="bill_closed">Bill closed</string>
-    <string name="template_table_set">Table set to %1$d</string>
     <string name="menu_added">Menu added to cart</string>
     <string name="order_set">Order forwarded to kitchen</string>
     <string name="sign_out">Sign out</string>
@@ -47,4 +43,7 @@
     <string name="order_more">Order more</string>
     <string name="menu_detail">Menu detail</string>
     <string name="order_detail">Order Detail</string>
+    <string name="invalid_current_password">The provided password is incorrect</string>
+    <string name="password_confirmation_doesnt_match">The password confirmation field doesn\'t match</string>
+    <string name="password_updated">Password updated successfully</string>
 </resources>

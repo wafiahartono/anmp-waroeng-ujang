@@ -67,4 +67,25 @@ class SessionViewModel(
         _user.value = null
     }
 
+    private val _updatePasswordResult = MutableLiveData<Result<Unit>>()
+    val updatePasswordResult: LiveData<Result<Unit>> = _updatePasswordResult
+
+    fun updatePassword(currentPassword: String, newPassword: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val user = database.waiterDao().find(_user.value!!.id)!!
+
+            if (user.password == currentPassword) {
+                database.waiterDao().updatePassword(_user.value!!.id, newPassword)
+
+                _updatePasswordResult.postValue(Result.Success(Unit))
+            } else {
+                _updatePasswordResult.postValue(
+                    Result.Error(
+                        Exception(app.getString(R.string.invalid_current_password))
+                    )
+                )
+            }
+        }
+    }
+
 }

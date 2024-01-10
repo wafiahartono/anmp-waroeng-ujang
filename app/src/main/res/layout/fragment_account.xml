@@ -86,7 +86,8 @@
                 android:id="@+id/edit_text_current_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:tag="edittext" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,7 +110,8 @@
                 android:id="@+id/edit_text_new_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:tag="edittext" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +134,8 @@
                 android:id="@+id/edit_text_repeat_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:tag="edittext" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
